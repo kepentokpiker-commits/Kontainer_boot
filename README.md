@@ -16,7 +16,7 @@ Kalau kernel bawaan device Anda tidak lolos cek (`check-kernel.sh` FAIL banyak i
 
 Cara pasang:
 1. Download zip dari link di atas
-2. Flash via TWRP / EXKM / FKM atau KernelSU Manager
+2. Flash via TWRP / EXKM / FKM / OFOX
 3. Reboot
 
 ## Cara pakai launcher
