@@ -8,6 +8,8 @@ echo ""
 PASS=0
 FAIL=0
 WARN=0
+FAILED_ITEMS=()
+WARNED_ITEMS=()
 
 check_config() {
     local name="$1"
@@ -29,6 +31,7 @@ check_config() {
     else
         echo "[FAIL] $name ($desc) - not found/enabled"
         FAIL=$((FAIL+1))
+        FAILED_ITEMS+=("$name ($desc)")
     fi
 }
 
@@ -41,6 +44,7 @@ check_runtime() {
     else
         echo "[WARN] $path ($desc) - not present"
         WARN=$((WARN+1))
+        WARNED_ITEMS+=("$path ($desc)")
     fi
 }
 
@@ -68,6 +72,23 @@ check_runtime "/proc/self/ns/net" "net ns active"
 echo ""
 echo "=== Summary ==="
 echo "Pass: $PASS | Warn: $WARN | Fail: $FAIL"
+
+if [ "$FAIL" -gt 0 ]; then
+    echo ""
+    echo "Item yang GAGAL:"
+    for item in "${FAILED_ITEMS[@]}"; do
+        echo "  - $item"
+    done
+fi
+
+if [ "$WARN" -gt 0 ]; then
+    echo ""
+    echo "Item yang WARNING:"
+    for item in "${WARNED_ITEMS[@]}"; do
+        echo "  - $item"
+    done
+fi
+
 echo ""
 
 if [ "$FAIL" -eq 0 ]; then
